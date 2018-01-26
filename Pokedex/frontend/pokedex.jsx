@@ -1,15 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import fetchAllPokemon from './util/api_util';
-import {receiveAllPokemon} from './actions/pokemon_actions';
+import {fetchAllPokemon, fetchPokemon} from './util/api_util';
+import {receiveAllPokemon, requestAllPokemon} from './actions/pokemon_actions';
 import {configureStore} from './store/store';
+import {selectAllPokemon} from './reducers/selectors';
+import Root from './components/root';
+import {HashRouter, Route} from 'react-router-dom';
+
 
 document.addEventListener('DOMContentLoaded', () => {
-  const rootEl = document.getElementById('root');
-  let store = configureStore();
+  const root = document.getElementById('root');
+  const store = configureStore();
   window.getState = store.getState;
   window.dispatch = store.dispatch;
+  window.store = store;
   window.fetchAllPokemon = fetchAllPokemon;
+  window.fetchPokemon = fetchPokemon;
+
   window.receiveAllPokemon = receiveAllPokemon;
-  ReactDOM.render(<h1>Pokedex</h1>, rootEl);
+  window.requestAllPokemon = requestAllPokemon;
+  window.selectAllPokemon = selectAllPokemon;
+  ReactDOM.render(<Root store={store}/>, root);
 });
